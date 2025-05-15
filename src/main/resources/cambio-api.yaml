@@ -1,0 +1,147 @@
+openapi: 3.0.3
+info:
+  title: API de Câmbio de Moedas Fantásticas
+  version: 1.0.0
+  description: >
+    API para consultar taxas de câmbio e realizar trocas de moeda por produto
+    entre moedas do mundo fantástico: Ouro Real e Tibar.
+
+paths:
+  /cambio:
+    get:
+      summary: Consulta a taxa de câmbio atual entre moedas
+      description: Retorna a taxa de conversão entre duas moedas específicas, considerando um produto negociado.
+      parameters:
+        - in: query
+          name: moedaOrigem
+          required: true
+          schema:
+            $ref: '#/components/schemas/Moeda'
+          description: Moeda que será convertida.
+        - in: query
+          name: moedaDestino
+          required: true
+          schema:
+            $ref: '#/components/schemas/Moeda'
+          description: Moeda de destino da conversão.
+        - in: query
+          name: produto
+          required: false
+          schema:
+            $ref: '#/components/schemas/Produto'
+          description: Produto negociado que influencia a taxa de conversão. Se não informado, será usada a taxa padrão (quando aplicável).
+      responses:
+        '200':
+          description: Taxa de câmbio entre moedas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaxaCambioResponse'
+        '404':
+          description: Taxa de câmbio não encontrada para os parâmetros fornecidos.
+
+  /cambio/conversao:
+    post:
+      summary: Realiza a conversão de moeda para um produto
+      description: >
+        Converte um valor de uma moeda para outra com base em um produto negociado,
+        considerando regras específicas de conversão para cada tipo de produto.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConversaoRequest'
+      responses:
+        '200':
+          description: Conversão realizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversaoResponse'
+        '400':
+          description: Requisição inválida. Verifique os dados enviados.
+
+components:
+  schemas:
+    Moeda:
+      type: string
+      enum: [OURO_REAL, TIBAR]
+      description: >
+        Moedas disponíveis no sistema de câmbio fantástico.
+        - OURO_REAL: Moeda do Reino do Norte
+        - TIBAR: Moeda do Império das Planícies
+      example: OURO_REAL
+
+    Produto:
+      type: string
+      enum: [PELES, MADEIRA, HIDROMEL]
+      description: >
+        Produtos que podem ser negociados em trocas de moedas.
+        Cada produto pode ter uma estratégia de conversão diferente.
+      example: PELES
+
+    TaxaCambioResponse:
+      type: object
+      properties:
+        moedaOrigem:
+          $ref: '#/components/schemas/Moeda'
+        moedaDestino:
+          $ref: '#/components/schemas/Moeda'
+        produto:
+          $ref: '#/components/schemas/Produto'
+        taxa:
+          type: number
+          format: double
+          description: Valor da taxa de conversão entre as moedas.
+          example: 1.5
+        dataAtualizacao:
+          type: string
+          format: date-time
+          description: Data e hora em que a taxa foi atualizada.
+          example: "2025-05-14T13:45:00Z"
+
+    ConversaoRequest:
+      type: object
+      required:
+        - moedaOrigem
+        - moedaDestino
+        - produto
+        - valor
+      properties:
+        moedaOrigem:
+          $ref: '#/components/schemas/Moeda'
+        moedaDestino:
+          $ref: '#/components/schemas/Moeda'
+        produto:
+          $ref: '#/components/schemas/Produto'
+        valor:
+          type: number
+          format: double
+          description: Valor a ser convertido.
+          example: 100.0
+
+    ConversaoResponse:
+      type: object
+      properties:
+        valorConvertido:
+          type: number
+          format: double
+          description: Valor final obtido após a conversão.
+          example: 150.0
+        taxaAplicada:
+          type: number
+          format: double
+          description: Taxa de câmbio aplicada.
+          example: 1.5
+        produto:
+          $ref: '#/components/schemas/Produto'
+        moedaOrigem:
+          $ref: '#/components/schemas/Moeda'
+        moedaDestino:
+          $ref: '#/components/schemas/Moeda'
+        dataHora:
+          type: string
+          format: date-time
+          description: Data e hora da conversão.
+          example: "2025-05-14T14:30:00Z"
