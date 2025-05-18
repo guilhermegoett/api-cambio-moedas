@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.goett.moedas.infra.entity.TaxaCambio;
+import com.goett.moedas.infra.entity.TaxaCambioEntity;
 
 @Repository
-public interface TaxaCambioRepository extends JpaRepository<TaxaCambio, Long> {
-    List<TaxaCambio> findByMoedaOrigemNomeAndMoedaDestinoNomeAndProdutoNome(String moedaOrigem, String moedaDestino, String produto);
+public interface TaxaCambioRepository extends JpaRepository<TaxaCambioEntity, Long> {
+    List<TaxaCambioEntity> findByMoedaOrigemNomeAndMoedaDestinoNomeAndProdutoNome(String moedaOrigem, String moedaDestino, String produto);
 
-    List<TaxaCambio> findByMoedaOrigemNomeOrMoedaDestinoNomeOrProdutoNomeOrDataAtualizacaoBetween(
+    List<TaxaCambioEntity> findByMoedaOrigemNomeOrMoedaDestinoNomeOrProdutoNomeOrDataAtualizacaoBetween(
         String moedaOrigem, String moedaDestino, String produto, LocalDateTime start, LocalDateTime end);
 }

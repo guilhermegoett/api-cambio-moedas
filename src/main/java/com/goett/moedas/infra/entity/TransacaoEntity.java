@@ -7,27 +7,33 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "transacao")
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-public class Transacao {
+@AllArgsConstructor
+public class TransacaoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String Produto;
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
+    private ProdutoEntity produto;
 
-    @Column(name = "valor_inicial", nullable = false)
+    @Column(nullable = false)
     private BigDecimal valorInicial;
 
-    @Column(name = "valor_final", nullable = false)
+    @Column(nullable = false)
     private BigDecimal valorFinal;
 
     @Column(nullable = false)
@@ -36,12 +42,15 @@ public class Transacao {
     @Column(nullable = false)
     private LocalDateTime dataHora;
 
-    @Column(name = "reino")
-    private String reino;
+    @ManyToOne
+    @JoinColumn(name = "reino_id")
+    private ReinoEntity reino;
 
-    @Column(name = "moeda_origem")
-    private String moedaOrigem;
+    @ManyToOne
+    @JoinColumn(name = "moeda_origem_id")
+    private MoedaEntity moedaOrigem;
 
-    @Column(name = "moeda_destino")
-    private String moedaDestino;
+    @ManyToOne
+    @JoinColumn(name = "moeda_destino_id")
+    private MoedaEntity moedaDestino;
 }

@@ -27,24 +27,28 @@ CREATE TABLE taxa_cambio (
 
 CREATE TABLE transacao (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    produto VARCHAR(50) NOT NULL,
+    produto_id BIGINT NOT NULL,
     valor_inicial DECIMAL(10, 2) NOT NULL,
     valor_final DECIMAL(10, 2) NOT NULL,
     taxa DECIMAL(10, 4) NOT NULL,
     data_hora TIMESTAMP NOT NULL,
-    reino VARCHAR(50) NOT NULL,
-    moeda_origem VARCHAR(50) NOT NULL,
-    moeda_destino VARCHAR(50) NOT NULL
+    reino_id BIGINT NOT NULL,
+    moeda_origem_id BIGINT NOT NULL,
+    moeda_destino_id BIGINT NOT NULL,
+    CONSTRAINT fk_transacao_produto FOREIGN KEY (produto_id) REFERENCES PRODUTO(id),
+    CONSTRAINT fk_transacao_reino FOREIGN KEY (reino_id) REFERENCES REINO(id),
+    CONSTRAINT fk_transacao_moeda_origem FOREIGN KEY (moeda_origem_id) REFERENCES MOEDA(id),
+    CONSTRAINT fk_transacao_moeda_destino FOREIGN KEY (moeda_destino_id) REFERENCES MOEDA(id)
 );
 
-INSERT INTO moeda (id, nome) VALUES (1, 'OURO_REAL');
-INSERT INTO moeda (id, nome) VALUES (2, 'TIBAR');
+INSERT INTO moeda (nome) VALUES ('OURO_REAL');
+INSERT INTO moeda (nome) VALUES ('TIBAR');
 
-INSERT INTO produto (id, nome) VALUES (1, 'PELES');
-INSERT INTO produto (id, nome) VALUES (2, 'MADEIRA');
-INSERT INTO produto (id, nome) VALUES (3, 'HIDROMEL');
+INSERT INTO produto (nome) VALUES ('PELES');
+INSERT INTO produto (nome) VALUES ('MADEIRA');
+INSERT INTO produto (nome) VALUES ('HIDROMEL');
 
-INSERT INTO reino (id, nome) VALUES (1, 'SRM');
+INSERT INTO reino (nome) VALUES ('SRM');
 
 INSERT INTO taxa_cambio(moeda_origem_id, moeda_destino_id, produto_id, taxa, data_atualizacao)
 VALUES (1, 2, 1, 1.5, CURRENT_DATE),

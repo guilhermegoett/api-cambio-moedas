@@ -10,6 +10,7 @@ public class TransacaoDTO {
     private String moedaOrigem;
     private String moedaDestino;
     private String produto;
+    private BigDecimal valorInicial;
     private BigDecimal valorFinal;
     private LocalDateTime dataHora;
     private String reino;

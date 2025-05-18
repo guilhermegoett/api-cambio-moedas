@@ -2,11 +2,9 @@ package com.goett.moedas.adapter.controller;
 
 import com.goett.moedas.CambioApi; // interface gerada pelo OpenAPI Generator
 import com.goett.moedas.exception.TransacaoNaoSalvaException;
-import com.goett.moedas.infra.entity.TaxaCambio;
+import com.goett.moedas.infra.entity.TaxaCambioEntity;
 import com.goett.model.ConversaoRequest;
 import com.goett.model.ConversaoResponse;
-import com.goett.model.Moeda;
-import com.goett.model.Produto;
 import com.goett.model.TaxaCambioResponse;
 import com.goett.moedas.service.CambioService;
 import org.springframework.http.ResponseEntity;
@@ -15,17 +13,17 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @RestController
-public class ControllerApiCambio implements CambioApi {
+public class CambioController implements CambioApi {
 
     private final CambioService cambioService;
 
-    public ControllerApiCambio(CambioService cambioService) {
+    public CambioController(CambioService cambioService) {
         this.cambioService = cambioService;
     }
 
     @Override
-    public ResponseEntity<TaxaCambioResponse> cambioGet(Moeda moedaOrigem, Moeda moedaDestino, Produto produto) {
-        TaxaCambio taxa = cambioService.obterTaxa(moedaOrigem.getValue(), moedaDestino.getValue(), produto.getValue()).get();
+    public ResponseEntity<TaxaCambioResponse> cambioGet(String moedaOrigem, String moedaDestino, String produto) {
+        TaxaCambioEntity taxa = cambioService.obterTaxa(moedaOrigem, moedaDestino, produto).get();
         LocalDateTime datahorLocalDateTime = taxa.getDataAtualizacao().atStartOfDay();
         TaxaCambioResponse response = new TaxaCambioResponse()
                 .moedaOrigem(moedaOrigem)
@@ -39,8 +37,8 @@ public class ControllerApiCambio implements CambioApi {
 
     @Override
     public ResponseEntity<ConversaoResponse> cambioConversaoPost(ConversaoRequest request) {
-        TaxaCambio taxa = cambioService
-                .obterTaxa(request.getMoedaOrigem().getValue(), request.getMoedaDestino().getValue(), request.getProduto().getValue()).get();
+        TaxaCambioEntity taxa = cambioService
+                .obterTaxa(request.getMoedaOrigem(), request.getMoedaDestino(), request.getProduto()).get();
 
         ConversaoResponse response = cambioService.converterMoeda(request, taxa.getTaxa());
         boolean transacaoSalva = cambioService.salvarTransacao(request, taxa, response);

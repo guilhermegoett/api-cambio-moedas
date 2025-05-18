@@ -11,27 +11,29 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "taxa_cambio")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaxaCambio {
+public class TaxaCambioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    private Moeda moedaOrigem;
+    private MoedaEntity moedaOrigem;
 
     @ManyToOne
-    private Moeda moedaDestino;
+    private MoedaEntity moedaDestino;
 
     @ManyToOne
-    private Produto produto;
+    private ProdutoEntity produto;
 
     @Column(nullable = false)
     private BigDecimal taxa;

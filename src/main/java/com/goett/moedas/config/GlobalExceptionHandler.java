@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import com.goett.moedas.exception.ProdutoJaExisteException;
 import com.goett.moedas.exception.TransacaoNaoSalvaException;
 
 @ControllerAdvice
@@ -38,8 +39,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
     }
 
-     @ExceptionHandler(TransacaoNaoSalvaException.class)
+    @ExceptionHandler(TransacaoNaoSalvaException.class)
     public ResponseEntity<Object> handleTransacaoNaoSalva(TransacaoNaoSalvaException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", ZonedDateTime.now());
+        body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        body.put("error", "Erro interno");
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(ProdutoJaExisteException.class)
+    public ResponseEntity<Object> handleTransacaoNaoSalva(ProdutoJaExisteException ex) {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", ZonedDateTime.now());
         body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
