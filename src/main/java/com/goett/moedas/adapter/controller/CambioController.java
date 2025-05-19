@@ -7,16 +7,12 @@ import com.goett.model.ConversaoRequest;
 import com.goett.model.ConversaoResponse;
 import com.goett.model.TaxaCambioResponse;
 import com.goett.moedas.service.CambioService;
-
-import io.swagger.v3.oas.annotations.tags.Tag;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @RestController
-@Tag(name = "cambio", description = "Operações relacionadas ao câmbio das moedas do mundo fantástico")
 public class CambioController implements CambioApi {
 
     private final CambioService cambioService;

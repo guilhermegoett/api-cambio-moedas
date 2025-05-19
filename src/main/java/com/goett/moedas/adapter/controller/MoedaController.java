@@ -11,13 +11,10 @@ import com.goett.moedas.MoedasApi;
 import com.goett.moedas.dto.MoedaDTO;
 import com.goett.moedas.infra.persistence.mapper.MoedaMapper;
 import com.goett.moedas.service.MoedaService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "moedas", description = "Operações relacionadas as moedas do mundo fantástico")
 public class MoedaController implements MoedasApi{
 
     private final MoedaService moedaService;

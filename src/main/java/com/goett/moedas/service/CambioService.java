@@ -13,9 +13,6 @@ import com.goett.moedas.infra.persistence.ReinoRepository;
 import com.goett.moedas.infra.persistence.TaxaCambioRepository;
 import com.goett.moedas.infra.persistence.TransacaoRepository;
 import com.goett.moedas.strategy.ConversaoStrategyRegistry;
-
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;

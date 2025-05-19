@@ -13,14 +13,11 @@ import com.goett.moedas.ReinosApi;
 import com.goett.moedas.dto.ReinoDTO;
 import com.goett.moedas.infra.persistence.mapper.ReinoMapper;
 import com.goett.moedas.service.ReinoService;
-
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "reinos", description = "Operações relacionadas aos reinos do mundo fantástico")
 public class ReinoController implements ReinosApi {
     
     private final ReinoService reinoService;

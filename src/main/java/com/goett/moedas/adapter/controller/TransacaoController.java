@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/transacoes")
 @RequiredArgsConstructor
-@Tag(name = "transacoes", description = "Operações relacionadas aos comércio entre reinos do mundo fantástico")
+@Tag(name = "Transacoes", description = "Operações relacionadas aos comércio entre reinos do mundo fantástico")
 public class TransacaoController {
 
     private final TransacaoService transacaoService;

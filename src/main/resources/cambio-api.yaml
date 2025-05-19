@@ -5,9 +5,22 @@ info:
   description: >
     API para consultar taxas de câmbio e realizar conversões de moeda com base em produtos negociáveis
     entre moedas do mundo fantástico, como Ouro Real e Tibar. A taxa pode variar de acordo com o tipo de produto.
+
+tags:
+  - name: Cambio
+    description: Operações relacionadas à consulta e conversão de taxas de câmbio entre moedas.
+  - name: Produtos
+    description: Operações para listar, criar e consultar produtos negociáveis.
+  - name: Reinos
+    description: Gerenciamento dos reinos e suas respectivas moedas.
+  - name: Moedas
+    description: Gerenciamento das moedas utilizadas nos reinos e conversões.
+
 paths:
   /cambio:
     get:
+      tags:
+        - Cambio
       summary: Consulta taxa de câmbio entre duas moedas para um produto
       description: >
         Retorna a taxa de câmbio entre duas moedas específicas (como OURO_REAL e TIBAR), levando em conta
@@ -43,6 +56,8 @@ paths:
 
   /cambio/conversao:
     post:
+      tags:
+        - Cambio
       summary: Converte valor entre moedas com base em um produto
       description: >
         Realiza a conversão de um valor entre moedas do mundo fantástico, considerando a taxa de câmbio
@@ -65,6 +80,8 @@ paths:
 
   /produtos:
     get:
+      tags:
+        - Produtos
       summary: Lista todos os produtos disponíveis para negociação
       description: Retorna todos os produtos registrados no sistema que podem influenciar nas taxas de câmbio.
       responses:
@@ -77,6 +94,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Produto'
     post:
+      tags:
+        - Produtos
       summary: Cadastra um novo produto negociável
       description: Adiciona um novo produto ao sistema. Produtos podem alterar as taxas de câmbio entre moedas.
       requestBody:
@@ -97,6 +116,8 @@ paths:
 
   /produtos/{id}:
     get:
+      tags:
+        - Produtos
       summary: Busca detalhes de um produto pelo ID
       description: Retorna as informações de um produto específico através de seu identificador único.
       parameters:
@@ -117,6 +138,8 @@ paths:
 
   /reinos:
     get:
+      tags:
+        - Reinos
       summary: Lista todos os reinos registrados
       description: Retorna todos os reinos fantásticos cadastrados, com seus respectivos nomes e moedas.
       responses:
@@ -129,6 +152,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Reino'
     post:
+      tags:
+        - Reinos
       summary: Cria um novo reino
       description: Adiciona um novo reino ao mundo fantástico e associa uma moeda à ele.
       requestBody:
@@ -149,6 +174,8 @@ paths:
 
   /reinos/{id}:
     get:
+      tags:
+        - Reinos
       summary: Consulta um reino pelo ID
       description: Retorna as informações detalhadas de um reino através de seu identificador.
       parameters:
@@ -169,6 +196,8 @@ paths:
 
   /moedas:
     get:
+      tags:
+        - Moedas
       summary: Lista todas as moedas do sistema
       description: Retorna as moedas cadastradas no mundo fantástico, como OURO_REAL e TIBAR.
       responses:
@@ -181,6 +210,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Moeda'
     post:
+      tags:
+        - Moedas
       summary: Cria uma nova moeda
       description: Adiciona uma nova moeda ao sistema para ser utilizada em transações e conversões.
       requestBody:
@@ -201,6 +232,8 @@ paths:
 
   /moedas/{id}:
     get:
+      tags:
+        - Moedas
       summary: Busca detalhes de uma moeda pelo ID
       description: Retorna os dados de uma moeda específica através de seu identificador único.
       parameters:
