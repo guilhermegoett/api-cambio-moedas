@@ -258,9 +258,12 @@ components:
           type: string
           description: Nome do reino.
           example: SRM
+        moedaId:
+          type: integer
+          example: 2
       required:
-        - id
         - nome
+        - moedaId
 
     TaxaCambioResponse:
       type: object
@@ -299,15 +302,15 @@ components:
         moedaOrigem:
           type: string
           description: Nome da moeda de origem.
-          example: "USD"
+          example: "OURO_REAL"
         moedaDestino:
           type: string
           description: Nome da moeda de destino.
-          example: "BRL"
+          example: "TIBAR"
         produto:
           type: string
           description: Nome do produto associado à conversão.
-          example: "BOOK"
+          example: "MADEIRA"
         valor:
           type: number
           format: double

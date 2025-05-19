@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Produto", description = "Operações relacionadas aos produtos do mercado do reino")
+@Tag(name = "produtos", description = "Operações relacionadas aos produtos do mercado do reino")
 public class ProdutoController implements ProdutosApi {
 
     private final ProdutoService produtoService;

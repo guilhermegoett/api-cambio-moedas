@@ -13,10 +13,16 @@ import com.goett.moedas.infra.persistence.ReinoRepository;
 import com.goett.moedas.infra.persistence.TaxaCambioRepository;
 import com.goett.moedas.infra.persistence.TransacaoRepository;
 import com.goett.moedas.strategy.ConversaoStrategyRegistry;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -37,6 +43,17 @@ public class CambioService {
         this.transacaoRepository = transacaoRepository;
         this.reinoRepository = reinoRepository;
         this.moedaRepository = moedaRepository;
+    }
+
+    public void atualizarTaxas() {
+        List<TaxaCambioEntity> taxas = taxaCambioRepository.findAll();
+        for (TaxaCambioEntity taxa : taxas) {
+            double variacao = (Math.random() - 0.5) / 5; // ±10%
+            BigDecimal novaTaxa = taxa.getTaxa().multiply(BigDecimal.valueOf(1 + variacao)).setScale(4, RoundingMode.HALF_UP);
+            taxa.setTaxa(novaTaxa);
+            taxa.setDataAtualizacao(LocalDate.now());
+        }
+        taxaCambioRepository.saveAll(taxas);
     }
 
     public Optional<TaxaCambioEntity> obterTaxa(String moedaOrigem, String moedaDestino,  String produto) {
@@ -86,5 +103,5 @@ public class CambioService {
             return false;
         }
     }
-   
+
 }

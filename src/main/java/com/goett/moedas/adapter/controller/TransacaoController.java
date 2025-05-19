@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.goett.moedas.service.TransacaoService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import com.goett.moedas.infra.entity.TransacaoEntity;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/transacoes")
 @RequiredArgsConstructor
+@Tag(name = "transacoes", description = "Operações relacionadas aos comércio entre reinos do mundo fantástico")
 public class TransacaoController {
 
     private final TransacaoService transacaoService;

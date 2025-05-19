@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Moeda", description = "Operações relacionadas as moedas do mundo fantástico")
+@Tag(name = "moedas", description = "Operações relacionadas as moedas do mundo fantástico")
 public class MoedaController implements MoedasApi{
 
     private final MoedaService moedaService;

@@ -27,7 +27,6 @@ public class TransacaoEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "produto_id")
     private ProdutoEntity produto;
 
     @Column(nullable = false)
@@ -43,14 +42,11 @@ public class TransacaoEntity {
     private LocalDateTime dataHora;
 
     @ManyToOne
-    @JoinColumn(name = "reino_id")
     private ReinoEntity reino;
 
     @ManyToOne
-    @JoinColumn(name = "moeda_origem_id")
     private MoedaEntity moedaOrigem;
 
     @ManyToOne
-    @JoinColumn(name = "moeda_destino_id")
     private MoedaEntity moedaDestino;
 }

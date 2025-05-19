@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Reino", description = "Operações relacionadas aos reinos do mundo fantástico")
+@Tag(name = "reinos", description = "Operações relacionadas aos reinos do mundo fantástico")
 public class ReinoController implements ReinosApi {
     
     private final ReinoService reinoService;
