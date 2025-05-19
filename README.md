@@ -1,8 +1,26 @@
-# ?? Sistema de Câmbio de Moedas
+# Sistema de Câmbio de Moedas
 
 Este projeto é uma API REST para gerenciamento de produtos, moedas, reinos e transações de câmbio. Ele segue os princípios de **Clean Architecture**, com **arquitetura hexagonal**, e foi desenvolvido com o conceito **API First**, utilizando o **OpenAPI Generator** para geração automática de modelos e interfaces.
 
-## ?? Tecnologias Utilizadas
+---
+
+## Sumário
+
+1. [Tecnologias Utilizadas](#tecnologias-utilizadas)
+2. [Estrutura do Projeto](#estrutura-do-projeto)
+3. [Padrões de Projeto](#padrões-de-projeto-utilizados)
+4. [Como Executar o Projeto](#como-executar-o-projeto)
+5. [Como Testar](#como-testar)
+7. [Documentação](#documentação)
+8. [Monitoramento](#monitoramento)
+9. [Funcionalidades](#funcionalidades)
+10. [Script Sql](#script-sql)
+11. [Licença](#licença)
+12. [Autor](#autor)
+
+---
+
+## Tecnologias Utilizadas
 
 * Java 17+
 * Spring Boot 3.x
@@ -18,7 +36,7 @@ Este projeto é uma API REST para gerenciamento de produtos, moedas, reinos e tra
 
 ---
 
-## ?? Estrutura do Projeto
+## Estrutura do Projeto
 
 O projeto segue o padrão de arquitetura hexagonal, com pacotes organizados por camadas:
 
@@ -37,7 +55,59 @@ O projeto segue o padrão de arquitetura hexagonal, com pacotes organizados por c
 
 ---
 
-## ?? Como Executar o Projeto
+## Padrões de Projeto Utilizados
+
+1. DTO (Data Transfer Object)
+Finalidade: Transferir dados entre camadas (ex: entre controller e service) sem expor entidades JPA diretamente.
+
+Exemplo: ReinoDTO, MoedaDTO, ProdutoDTO, TransacaoDTO.
+
+2. Mapper (com MapStruct)
+Finalidade: Conversão automática entre DTOs e entidades/modelos.
+
+Exemplo: ReinoMapper, MoedaMapper, etc.
+
+Padrão associado: Mapper Pattern
+
+3. Repository (Spring Data JPA)
+Finalidade: Abstração do acesso a dados, com operações CRUD prontas.
+
+Exemplo: MoedaRepository, ReinoRepository, TaxaCambioRepository.
+
+Padrão associado: Repository Pattern
+
+4. Service Layer
+Finalidade: Isola a lógica de negócio das controllers e dos repositórios.
+
+Exemplo: CambioService, MoedaService, ProdutoService, etc.
+
+Padrão associado: Service Layer Pattern
+
+5. Controller (Adapter Layer via API First)
+Finalidade: Controladores implementam interfaces geradas pelo contrato OpenAPI.
+
+Exemplo: MoedaController, ReinoController, CambioController.
+
+Padrão associado: Adapter Pattern e Controller Pattern
+
+6. Scheduled Task (Scheduler com Spring)
+Finalidade: Automatiza a atualização periódica das taxas de câmbio.
+
+Padrão associado: Scheduler Pattern
+
+7. Conditional Configuration
+Finalidade: Habilita ou desabilita agendamentos com base em uma propriedade (scheduling.enabled).
+
+Padrão associado: Conditional Activation Pattern
+
+8. API First (OpenAPI Generator)
+Finalidade: Define a estrutura da API via contrato YAML antes da implementação.
+
+Benefício: Garante alinhamento entre frontend e backend.
+
+---
+
+## Como Executar o Projeto
 
 ### Pré-requisitos
 
@@ -73,7 +143,7 @@ O projeto segue o padrão de arquitetura hexagonal, com pacotes organizados por c
 
 ---
 
-## ?? Agendamento de Atualização de Taxas
+## Agendamento de Atualização de Taxas
 
 A aplicação possui uma rotina agendada para atualização automática das taxas de câmbio a cada 5 minutos.
 
@@ -85,15 +155,15 @@ scheduling.enabled=true   # ou false
 
 ---
 
-## ?? Como Testar
+## Como Testar
 
 Você pode testar a API de duas formas:
 
-### ? Via Swagger UI
+### Via Swagger UI
 
 Acesse [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html) e interaja com os endpoints REST.
 
-### ? Via Testes Unitários e de Integração
+### Via Testes Unitários e de Integração
 
 Execute os testes com:
 
@@ -103,13 +173,21 @@ mvn test
 
 ---
 
+## Documentação
+
+A documentação da API est? disponível através do Swagger e pode ser acessada diretamente através da URL:
+
+http://localhost:8080/swagger-ui/index.html
+
+---
+
 ## Monitoramento
 
 A aplicação utiliza o Spring Boot Actuator para expor endpoints que permitem o monitoramento da saúde da aplicação, métricas de uso de recursos e informações do sistema. Isso facilita a observabilidade e diagnóstico durante o desenvolvimento e também em ambientes de produção.
 
 http://localhost:8080/actuator/health
 
-## ?? Funcionalidades
+## Funcionalidades
 
 * Cadastro e listagem de Produtos
 * Cadastro de Moedas
@@ -119,7 +197,7 @@ http://localhost:8080/actuator/health
 
 ---
 
-##  Script Sql
+## Script Sql
 
 CREATE TABLE moeda (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -232,7 +310,7 @@ VALUES
 
 ---
 
-## ??? Observações
+## Observações
 
 * O banco de dados H2 é volátil e reinicia a cada execução.
 * As entidades estão configuradas com `@Data` e `@Entity` usando o Lombok.
@@ -241,7 +319,13 @@ VALUES
 
 ---
 
-## ?? Autor
+## Licença
+
+Este projeto é distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
+
+---
+
+## Autor
 
 Desenvolvido por Guilherme Augusto Goettnauer
 Contato: [LinkedIn](https://www.linkedin.com/in/guilherme-goettnauer-4422a226/) | [Email](mailto:guilhermegoet@gmail.com)

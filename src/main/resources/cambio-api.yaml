@@ -3,48 +3,50 @@ info:
   title: API de Câmbio de Moedas Fantásticas
   version: 1.0.0
   description: >
-    API para consultar taxas de câmbio e realizar trocas de moeda por produto
-    entre moedas do mundo fantástico: Ouro Real e Tibar.
-
+    API para consultar taxas de câmbio e realizar conversões de moeda com base em produtos negociáveis
+    entre moedas do mundo fantástico, como Ouro Real e Tibar. A taxa pode variar de acordo com o tipo de produto.
 paths:
   /cambio:
     get:
-      summary: Consulta a taxa de câmbio atual entre moedas
-      description: Retorna a taxa de conversão entre duas moedas específicas, considerando um produto negociado.
+      summary: Consulta taxa de câmbio entre duas moedas para um produto
+      description: >
+        Retorna a taxa de câmbio entre duas moedas específicas (como OURO_REAL e TIBAR), levando em conta
+        o produto negociado. Se nenhum produto for informado, será utilizada a taxa padrão entre as moedas.
       parameters:
         - in: query
           name: moedaOrigem
           required: true
           schema:
             type: string
-          description: Nome da moeda que será convertida (ex OURO_REAL).
+          description: Código da moeda de origem (ex OURO_REAL).
         - in: query
           name: moedaDestino
           required: true
           schema:
             type: string
-          description: Nome da moeda de destino da conversão (ex TIBAR).
+          description: Código da moeda de destino (ex TIBAR).
         - in: query
           name: produto
           required: false
           schema:
             type: string
-          description: Nome do produto negociado que influencia a taxa de conversão (ex PELES). Se não informado, será usada a taxa padrão (quando aplicável).
+          description: Nome do produto a ser negociado (ex PELES). Se omitido, será usada a taxa padrão.
       responses:
         '200':
-          description: Taxa de câmbio entre moedas
+          description: Taxa de câmbio encontrada com sucesso.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TaxaCambioResponse'
         '404':
-          description: Taxa de câmbio não encontrada para os parâmetros fornecidos.
+          description: Taxa de câmbio não encontrada para os parâmetros informados.
 
   /cambio/conversao:
     post:
-      summary: Realiza a conversão de moeda para um produto
-      description: Converte um valor de uma moeda para outra com base em um produto negociado,
-        considerando regras específicas de conversão para cada tipo de produto.
+      summary: Converte valor entre moedas com base em um produto
+      description: >
+        Realiza a conversão de um valor entre moedas do mundo fantástico, considerando a taxa de câmbio
+        para o produto especificado. As taxas variam conforme o produto negociado.
       requestBody:
         required: true
         content:
@@ -53,7 +55,7 @@ paths:
               $ref: '#/components/schemas/ConversaoRequest'
       responses:
         '200':
-          description: Conversão realizada com sucesso
+          description: Conversão realizada com sucesso.
           content:
             application/json:
               schema:
@@ -63,10 +65,11 @@ paths:
 
   /produtos:
     get:
-      summary: Lista todos os produtos disponíveis
+      summary: Lista todos os produtos disponíveis para negociação
+      description: Retorna todos os produtos registrados no sistema que podem influenciar nas taxas de câmbio.
       responses:
         '200':
-          description: Lista de produtos
+          description: Lista de produtos retornada com sucesso.
           content:
             application/json:
               schema:
@@ -74,7 +77,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Produto'
     post:
-      summary: Cria um novo produto
+      summary: Cadastra um novo produto negociável
+      description: Adiciona um novo produto ao sistema. Produtos podem alterar as taxas de câmbio entre moedas.
       requestBody:
         required: true
         content:
@@ -83,17 +87,18 @@ paths:
               $ref: '#/components/schemas/Produto'
       responses:
         '201':
-          description: Produto criado com sucesso
+          description: Produto criado com sucesso.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Produto'
         '409':
-          description: Produto já existe
+          description: Já existe um produto com o mesmo nome.
 
   /produtos/{id}:
     get:
-      summary: Busca um produto pelo ID
+      summary: Busca detalhes de um produto pelo ID
+      description: Retorna as informações de um produto específico através de seu identificador único.
       parameters:
         - in: path
           name: id
@@ -102,20 +107,21 @@ paths:
             type: integer
       responses:
         '200':
-          description: Produto encontrado
+          description: Produto encontrado com sucesso.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Produto'
         '404':
-          description: Produto não encontrado
+          description: Produto não encontrado.
 
   /reinos:
     get:
-      summary: Lista todos os reinos disponíveis
+      summary: Lista todos os reinos registrados
+      description: Retorna todos os reinos fantásticos cadastrados, com seus respectivos nomes e moedas.
       responses:
         '200':
-          description: Lista de reinos
+          description: Lista de reinos retornada com sucesso.
           content:
             application/json:
               schema:
@@ -124,6 +130,7 @@ paths:
                   $ref: '#/components/schemas/Reino'
     post:
       summary: Cria um novo reino
+      description: Adiciona um novo reino ao mundo fantástico e associa uma moeda à ele.
       requestBody:
         required: true
         content:
@@ -132,17 +139,18 @@ paths:
               $ref: '#/components/schemas/Reino'
       responses:
         '201':
-          description: Reino criado com sucesso
+          description: Reino criado com sucesso.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Reino'
         '409':
-          description: Reino já existe
+          description: Já existe um reino com esse nome.
 
   /reinos/{id}:
     get:
-      summary: Busca um reino pelo ID
+      summary: Consulta um reino pelo ID
+      description: Retorna as informações detalhadas de um reino através de seu identificador.
       parameters:
         - in: path
           name: id
@@ -151,20 +159,21 @@ paths:
             type: integer
       responses:
         '200':
-          description: Reino encontrado
+          description: Reino encontrado com sucesso.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Reino'
         '404':
-          description: Reino não encontrado
+          description: Reino não encontrado.
 
   /moedas:
     get:
-      summary: Lista todas as moedas disponíveis
+      summary: Lista todas as moedas do sistema
+      description: Retorna as moedas cadastradas no mundo fantástico, como OURO_REAL e TIBAR.
       responses:
         '200':
-          description: Lista de moedas
+          description: Lista de moedas retornada com sucesso.
           content:
             application/json:
               schema:
@@ -173,6 +182,7 @@ paths:
                   $ref: '#/components/schemas/Moeda'
     post:
       summary: Cria uma nova moeda
+      description: Adiciona uma nova moeda ao sistema para ser utilizada em transações e conversões.
       requestBody:
         required: true
         content:
@@ -181,17 +191,18 @@ paths:
               $ref: '#/components/schemas/Moeda'
       responses:
         '201':
-          description: Moeda criada com sucesso
+          description: Moeda criada com sucesso.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Moeda'
         '409':
-          description: Moeda já existe
+          description: Já existe uma moeda com esse nome.
 
   /moedas/{id}:
     get:
-      summary: Busca uma moeda pelo ID
+      summary: Busca detalhes de uma moeda pelo ID
+      description: Retorna os dados de uma moeda específica através de seu identificador único.
       parameters:
         - in: path
           name: id
@@ -200,14 +211,13 @@ paths:
             type: integer
       responses:
         '200':
-          description: Moeda encontrada
+          description: Moeda encontrada com sucesso.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Moeda'
         '404':
-          description: Moeda não encontrada
-
+          description: Moeda não encontrada.
 
 components:
   schemas:
@@ -342,3 +352,4 @@ components:
         dataHora:
           type: string
           format: date-time
+
