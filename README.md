@@ -119,8 +119,8 @@ Benefício: Garante alinhamento entre frontend e backend.
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/seu-usuario/nome-do-repositorio.git
-   cd nome-do-repositorio
+   git clone git@github.com:guilhermegoett/api-cambio-moedas.git
+   cd moedas
    ```
 
 2. Compile o projeto e gere as classes a partir do OpenAPI:
